@@ -1,0 +1,39 @@
+{
+  "status": "awaiting_backfill",
+  "generated_at_utc": "2026-04-02T17:05:59.958353+00:00",
+  "price": {
+    "historical_source": "Binance Spot public market-data REST API",
+    "live_source": "Binance Spot public market-data REST API",
+    "api_base": "https://data-api.binance.vision",
+    "endpoint": "/api/v3/klines",
+    "interval": "1d",
+    "symbols": {
+      "Bitcoin": "BTCUSDT",
+      "Ethereum": "ETHUSDT",
+      "Dogecoin": "DOGEUSDT"
+    },
+    "configured_backfill_start_dates": {
+      "Bitcoin": "2017-01-01",
+      "Ethereum": "2017-08-01",
+      "Dogecoin": "2019-07-01"
+    },
+    "local_csv": "data/raw_price_candles.csv"
+  },
+  "twitter": {
+    "historical_source": "User-supplied real historical Twitter/sentiment CSV",
+    "live_source": null,
+    "live_available": false,
+    "local_csv": "data/raw_twitter_sentiment.csv",
+    "notes": "Place a verified real historical Bitcoin tweet/sentiment CSV here to enable historical Twitter-only and combined backtests."
+  },
+  "artifacts": {
+    "feature_matrix_csv": "data/feature_matrix.csv",
+    "model_results_csv": "artifacts/model_results.csv",
+    "backtest_predictions_csv": "artifacts/backtest_predictions.csv",
+    "best_model_metadata_json": "artifacts/best_model_metadata.json"
+  },
+  "legacy_demo": {
+    "path": "deprecated_demo/",
+    "in_production_path": false
+  }
+}

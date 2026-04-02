@@ -1,0 +1,22 @@
+{
+  "status": "awaiting_backfill_and_training",
+  "generated_at_utc": "2026-04-02T17:05:59.958992+00:00",
+  "selection_rule": "Choose production winner by validation class-1 F1, using validation PR-AUC as secondary tiebreak. Report final held-out test metrics separately.",
+  "price_source": "Binance Spot public market-data REST API",
+  "live_price_source": "Binance Spot public market-data REST API",
+  "twitter_source": "User-supplied real historical Twitter/sentiment CSV",
+  "twitter_live_available": false,
+  "selected_models": {},
+  "disabled_live_modes": {
+    "Bitcoin": {
+      "twitter_only": "Historical-only unless a real ongoing live Twitter/sentiment source is configured.",
+      "combined": "Historical-only unless a real ongoing live Twitter/sentiment source is configured."
+    }
+  },
+  "artifact_paths": {
+    "model_results_csv": "artifacts/model_results.csv",
+    "backtest_predictions_csv": "artifacts/backtest_predictions.csv",
+    "backtest_predictions_selected_csv": "artifacts/backtest_predictions_selected.csv",
+    "feature_matrix_csv": "data/feature_matrix.csv"
+  }
+}
