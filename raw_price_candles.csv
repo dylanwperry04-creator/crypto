@@ -1,0 +1,1 @@
+coin,symbol,candle_open_time_utc,candle_close_time_utc,open,high,low,close,volume,quote_volume,trade_count,source,source_interval,source_symbol,is_complete,ingested_at_utc
