@@ -1,0 +1,99 @@
+{
+  "generated_at_utc": "2026-04-05T15:19:41.605767+00:00",
+  "price_rows": 8772,
+  "twitter_rows": 538,
+  "feature_rows": 9848,
+  "checks": [
+    {
+      "scope": "raw_price",
+      "check_name": "rows_present",
+      "value": 8772,
+      "status": "ok",
+      "notes": ""
+    },
+    {
+      "scope": "raw_price",
+      "check_name": "duplicate_rows",
+      "value": 0,
+      "status": "ok",
+      "notes": ""
+    },
+    {
+      "scope": "raw_price",
+      "check_name": "missing_core_values",
+      "value": 0,
+      "status": "ok",
+      "notes": ""
+    },
+    {
+      "scope": "raw_price",
+      "check_name": "incomplete_candles_present",
+      "value": 0,
+      "status": "ok",
+      "notes": ""
+    },
+    {
+      "scope": "raw_price",
+      "check_name": "extreme_daily_moves_abs_gt_50pct",
+      "value": 7,
+      "status": "warn",
+      "notes": ""
+    },
+    {
+      "scope": "twitter",
+      "check_name": "rows_present",
+      "value": 538,
+      "status": "ok",
+      "notes": ""
+    },
+    {
+      "scope": "twitter",
+      "check_name": "duplicate_daily_rows",
+      "value": 0,
+      "status": "ok",
+      "notes": ""
+    },
+    {
+      "scope": "twitter",
+      "check_name": "missing_daily_feature_values",
+      "value": 0,
+      "status": "ok",
+      "notes": ""
+    },
+    {
+      "scope": "feature_matrix",
+      "check_name": "rows_present",
+      "value": 9848,
+      "status": "ok",
+      "notes": ""
+    },
+    {
+      "scope": "feature_matrix",
+      "check_name": "duplicate_rows",
+      "value": 0,
+      "status": "ok",
+      "notes": ""
+    },
+    {
+      "scope": "feature_matrix",
+      "check_name": "unresolved_target_rows",
+      "value": 3,
+      "status": "info",
+      "notes": "Latest row is allowed to have no target yet."
+    },
+    {
+      "scope": "feature_matrix",
+      "check_name": "class1_rate",
+      "value": 0.500356,
+      "status": "ok",
+      "notes": ""
+    },
+    {
+      "scope": "feature_matrix",
+      "check_name": "missing_cells_total",
+      "value": 164945,
+      "status": "warn",
+      "notes": "Twitter-only latest target row may remain NaN until next candle exists."
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+scope,check_name,value,status,notes
+raw_price,rows_present,8772.0,ok,
+raw_price,duplicate_rows,0.0,ok,
+raw_price,missing_core_values,0.0,ok,
+raw_price,incomplete_candles_present,0.0,ok,
+raw_price,extreme_daily_moves_abs_gt_50pct,7.0,warn,
+twitter,rows_present,538.0,ok,
+twitter,duplicate_daily_rows,0.0,ok,
+twitter,missing_daily_feature_values,0.0,ok,
+feature_matrix,rows_present,9848.0,ok,
+feature_matrix,duplicate_rows,0.0,ok,
+feature_matrix,unresolved_target_rows,3.0,info,Latest row is allowed to have no target yet.
+feature_matrix,class1_rate,0.500356,ok,
+feature_matrix,missing_cells_total,164945.0,warn,Twitter-only latest target row may remain NaN until next candle exists.

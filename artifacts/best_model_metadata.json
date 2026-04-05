@@ -1,0 +1,273 @@
+{
+  "status": "ready",
+  "generated_at_utc": "2026-04-05T15:19:51.891584+00:00",
+  "selection_rule": "Choose production winner by validation class-1 F1, using validation PR-AUC as secondary tiebreak. Report final held-out test metrics separately.",
+  "price_source": "Binance Spot public market-data REST API",
+  "live_price_source": "Binance Spot public market-data REST API",
+  "twitter_source": "User-supplied real historical Twitter/sentiment CSV",
+  "twitter_live_available": false,
+  "selected_models": {
+    "Bitcoin": {
+      "price_only": {
+        "selected_model_family": "RandomForest",
+        "model_artifact": "bitcoin_price_only_model.joblib",
+        "feature_artifact": "bitcoin_price_only_features.csv",
+        "model_version": {
+          "file": "bitcoin_price_only_model.joblib",
+          "sha256_12": "4aa21bc4d860",
+          "updated_at": "2026-04-05T15:20:21.887255+00:00"
+        },
+        "feature_version": {
+          "file": "bitcoin_price_only_features.csv",
+          "sha256_12": "32cbb1b1961d",
+          "updated_at": "2026-04-05T15:20:21.890918+00:00"
+        },
+        "training_data_date_range": {
+          "start": "2022-01-01",
+          "end": "2023-04-02"
+        },
+        "test_date_range": {
+          "start": "2023-04-03",
+          "end": "2023-06-22"
+        },
+        "threshold": 0.33,
+        "feature_count": 62,
+        "includes_twitter": false,
+        "live_valid": true,
+        "selection_basis": {
+          "rule": "highest validation class-1 F1; PR-AUC tiebreak",
+          "validation_f1_class1": 0.626087,
+          "validation_pr_auc": 0.467955
+        },
+        "test_metrics": {
+          "f1_class1": 0.7,
+          "pr_auc": 0.603742,
+          "precision": 0.538462,
+          "recall": 1.0,
+          "balanced_accuracy": 0.538462,
+          "roc_auc": 0.601343
+        },
+        "source_provenance": {
+          "raw_price_candles_csv": "data\\raw_price_candles.csv",
+          "raw_twitter_sentiment_csv": "data\\raw_twitter_sentiment.csv",
+          "feature_matrix_csv": "data\\feature_matrix.csv",
+          "model_results_csv": "artifacts\\model_results.csv",
+          "backtest_predictions_csv": "artifacts\\backtest_predictions.csv"
+        },
+        "trained_at_utc": "2026-04-05T15:20:03.285832+00:00"
+      },
+      "twitter_only": {
+        "selected_model_family": "XGBoost",
+        "model_artifact": "bitcoin_twitter_only_model.joblib",
+        "feature_artifact": "bitcoin_twitter_only_features.csv",
+        "model_version": {
+          "file": "bitcoin_twitter_only_model.joblib",
+          "sha256_12": "e2d64a49007c",
+          "updated_at": "2026-04-05T15:20:38.116786+00:00"
+        },
+        "feature_version": {
+          "file": "bitcoin_twitter_only_features.csv",
+          "sha256_12": "4b5daa07a763",
+          "updated_at": "2026-04-05T15:20:38.118786+00:00"
+        },
+        "training_data_date_range": {
+          "start": "2022-01-01",
+          "end": "2023-04-02"
+        },
+        "test_date_range": {
+          "start": "2023-04-03",
+          "end": "2023-06-22"
+        },
+        "threshold": 0.29,
+        "feature_count": 15,
+        "includes_twitter": true,
+        "live_valid": false,
+        "selection_basis": {
+          "rule": "highest validation class-1 F1; PR-AUC tiebreak",
+          "validation_f1_class1": 0.640777,
+          "validation_pr_auc": 0.470728
+        },
+        "test_metrics": {
+          "f1_class1": 0.672566,
+          "pr_auc": 0.499736,
+          "precision": 0.535211,
+          "recall": 0.904762,
+          "balanced_accuracy": 0.529304,
+          "roc_auc": 0.477411
+        },
+        "source_provenance": {
+          "raw_price_candles_csv": "data\\raw_price_candles.csv",
+          "raw_twitter_sentiment_csv": "data\\raw_twitter_sentiment.csv",
+          "feature_matrix_csv": "data\\feature_matrix.csv",
+          "model_results_csv": "artifacts\\model_results.csv",
+          "backtest_predictions_csv": "artifacts\\backtest_predictions.csv"
+        },
+        "trained_at_utc": "2026-04-05T15:20:34.596412+00:00"
+      },
+      "combined": {
+        "selected_model_family": "RandomForest",
+        "model_artifact": "bitcoin_combined_model.joblib",
+        "feature_artifact": "bitcoin_combined_features.csv",
+        "model_version": {
+          "file": "bitcoin_combined_model.joblib",
+          "sha256_12": "2f74e5950cd6",
+          "updated_at": "2026-04-05T15:21:07.118028+00:00"
+        },
+        "feature_version": {
+          "file": "bitcoin_combined_features.csv",
+          "sha256_12": "8df2892750ef",
+          "updated_at": "2026-04-05T15:21:07.121259+00:00"
+        },
+        "training_data_date_range": {
+          "start": "2022-01-01",
+          "end": "2023-04-02"
+        },
+        "test_date_range": {
+          "start": "2023-04-03",
+          "end": "2023-06-22"
+        },
+        "threshold": 0.38,
+        "feature_count": 77,
+        "includes_twitter": true,
+        "live_valid": false,
+        "selection_basis": {
+          "rule": "highest validation class-1 F1; PR-AUC tiebreak",
+          "validation_f1_class1": 0.62963,
+          "validation_pr_auc": 0.459394
+        },
+        "test_metrics": {
+          "f1_class1": 0.672269,
+          "pr_auc": 0.619722,
+          "precision": 0.519481,
+          "recall": 0.952381,
+          "balanced_accuracy": 0.501832,
+          "roc_auc": 0.554335
+        },
+        "source_provenance": {
+          "raw_price_candles_csv": "data\\raw_price_candles.csv",
+          "raw_twitter_sentiment_csv": "data\\raw_twitter_sentiment.csv",
+          "feature_matrix_csv": "data\\feature_matrix.csv",
+          "model_results_csv": "artifacts\\model_results.csv",
+          "backtest_predictions_csv": "artifacts\\backtest_predictions.csv"
+        },
+        "trained_at_utc": "2026-04-05T15:20:40.242232+00:00"
+      }
+    },
+    "Ethereum": {
+      "price_only": {
+        "selected_model_family": "LogisticRegression",
+        "model_artifact": "ethereum_price_only_model.joblib",
+        "feature_artifact": "ethereum_price_only_features.csv",
+        "model_version": {
+          "file": "ethereum_price_only_model.joblib",
+          "sha256_12": "c133d8b0a3e7",
+          "updated_at": "2026-04-05T15:22:25.498450+00:00"
+        },
+        "feature_version": {
+          "file": "ethereum_price_only_features.csv",
+          "sha256_12": "32cbb1b1961d",
+          "updated_at": "2026-04-05T15:22:25.501178+00:00"
+        },
+        "training_data_date_range": {
+          "start": "2017-08-17",
+          "end": "2024-12-16"
+        },
+        "test_date_range": {
+          "start": "2024-12-17",
+          "end": "2026-04-03"
+        },
+        "threshold": 0.35,
+        "feature_count": 62,
+        "includes_twitter": false,
+        "live_valid": true,
+        "selection_basis": {
+          "rule": "highest validation class-1 F1; PR-AUC tiebreak",
+          "validation_f1_class1": 0.702703,
+          "validation_pr_auc": 0.562797
+        },
+        "test_metrics": {
+          "f1_class1": 0.664773,
+          "pr_auc": 0.508782,
+          "precision": 0.497872,
+          "recall": 1.0,
+          "balanced_accuracy": 0.506276,
+          "roc_auc": 0.488878
+        },
+        "source_provenance": {
+          "raw_price_candles_csv": "data\\raw_price_candles.csv",
+          "raw_twitter_sentiment_csv": "data\\raw_twitter_sentiment.csv",
+          "feature_matrix_csv": "data\\feature_matrix.csv",
+          "model_results_csv": "artifacts\\model_results.csv",
+          "backtest_predictions_csv": "artifacts\\backtest_predictions.csv"
+        },
+        "trained_at_utc": "2026-04-05T15:21:07.972064+00:00"
+      }
+    },
+    "Dogecoin": {
+      "price_only": {
+        "selected_model_family": "LogisticRegression",
+        "model_artifact": "dogecoin_price_only_model.joblib",
+        "feature_artifact": "dogecoin_price_only_features.csv",
+        "model_version": {
+          "file": "dogecoin_price_only_model.joblib",
+          "sha256_12": "aa8668e8fdad",
+          "updated_at": "2026-04-05T15:23:30.396432+00:00"
+        },
+        "feature_version": {
+          "file": "dogecoin_price_only_features.csv",
+          "sha256_12": "32cbb1b1961d",
+          "updated_at": "2026-04-05T15:23:30.398432+00:00"
+        },
+        "training_data_date_range": {
+          "start": "2019-07-05",
+          "end": "2025-03-29"
+        },
+        "test_date_range": {
+          "start": "2025-03-30",
+          "end": "2026-04-03"
+        },
+        "threshold": 0.32,
+        "feature_count": 62,
+        "includes_twitter": false,
+        "live_valid": true,
+        "selection_basis": {
+          "rule": "highest validation class-1 F1; PR-AUC tiebreak",
+          "validation_f1_class1": 0.656716,
+          "validation_pr_auc": 0.504664
+        },
+        "test_metrics": {
+          "f1_class1": 0.609023,
+          "pr_auc": 0.430003,
+          "precision": 0.440217,
+          "recall": 0.987805,
+          "balanced_accuracy": 0.493902,
+          "roc_auc": 0.455778
+        },
+        "source_provenance": {
+          "raw_price_candles_csv": "data\\raw_price_candles.csv",
+          "raw_twitter_sentiment_csv": "data\\raw_twitter_sentiment.csv",
+          "feature_matrix_csv": "data\\feature_matrix.csv",
+          "model_results_csv": "artifacts\\model_results.csv",
+          "backtest_predictions_csv": "artifacts\\backtest_predictions.csv"
+        },
+        "trained_at_utc": "2026-04-05T15:22:26.539393+00:00"
+      }
+    }
+  },
+  "disabled_live_modes": {
+    "Bitcoin": {
+      "twitter_only": "Historical-only unless a real ongoing live Twitter/sentiment source is configured.",
+      "combined": "Historical-only unless a real ongoing live Twitter/sentiment source is configured."
+    }
+  },
+  "artifact_paths": {
+    "model_results_csv": "artifacts\\model_results.csv",
+    "backtest_predictions_csv": "artifacts\\backtest_predictions.csv",
+    "backtest_predictions_selected_csv": "artifacts\\backtest_predictions_selected.csv",
+    "feature_matrix_csv": "data\\feature_matrix.csv"
+  },
+  "bitcoin_compare_feature_window": {
+    "start": "2022-01-01",
+    "end": "2023-06-22"
+  }
+}

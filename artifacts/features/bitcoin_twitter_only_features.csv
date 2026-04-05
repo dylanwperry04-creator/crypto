@@ -1,0 +1,16 @@
+feature
+weighted_sentiment_mean
+weighted_sentiment_std
+weighted_positive_share
+weighted_negative_share
+weighted_tweet_count
+total_engagement
+average_engagement
+max_engagement
+raw_tweet_count
+sent_ma3
+sent_ma7
+sent_chg3
+sent_chg7
+tweet_mass_ma3
+tweet_mass_ma7

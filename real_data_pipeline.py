@@ -139,6 +139,19 @@ PRICE_FEATURES = [
     "lag1_return",
     "lag2_return",
     "lag3_return",
+    "lag4_return",
+    "lag5_return",
+    "return_21",
+    "rolling_mean_21",
+    "rolling_std_21",
+    "price_vs_ma21",
+    "ma7_vs_ma21",
+    "ma14_vs_ma30",
+    "rsi_21",
+    "rsi_divergence",
+    "macd_above_signal",
+    "volume_ma14",
+    "volume_vs_ma14",
     "dow_sin",
     "dow_cos",
     "month_sin",
@@ -838,14 +851,17 @@ def build_price_feature_frame(price_df: pd.DataFrame) -> pd.DataFrame:
 
     grp = df.groupby("coin", group_keys=False)
     df["pct_change_raw"] = ((df["close"] - df["open"]) / df["open"].replace(0, np.nan)).fillna(0.0)
-    for window in [1, 3, 7, 14]:
+    for window in [1, 3, 7, 14, 21]:
         df[f"return_{window}"] = grp["close"].pct_change(window).fillna(0.0)
-    for window in [7, 14, 30]:
+    for window in [7, 14, 21, 30]:
         df[f"rolling_mean_{window}"] = grp["close"].transform(lambda s: s.rolling(window, min_periods=1).mean())
         df[f"rolling_std_{window}"] = grp["close"].transform(lambda s: s.rolling(window, min_periods=1).std(ddof=0)).fillna(0.0)
     df["price_vs_ma7"] = ((df["close"] / df["rolling_mean_7"].replace(0, np.nan)) - 1).fillna(0.0)
     df["price_vs_ma14"] = ((df["close"] / df["rolling_mean_14"].replace(0, np.nan)) - 1).fillna(0.0)
+    df["price_vs_ma21"] = ((df["close"] / df["rolling_mean_21"].replace(0, np.nan)) - 1).fillna(0.0)
     df["price_vs_ma30"] = ((df["close"] / df["rolling_mean_30"].replace(0, np.nan)) - 1).fillna(0.0)
+    df["ma7_vs_ma21"] = ((df["rolling_mean_7"] / df["rolling_mean_21"].replace(0, np.nan)) - 1).fillna(0.0)
+    df["ma14_vs_ma30"] = ((df["rolling_mean_14"] / df["rolling_mean_30"].replace(0, np.nan)) - 1).fillna(0.0)
     df["range_pct"] = ((df["high"] - df["low"]) / df["open"].replace(0, np.nan)).fillna(0.0)
     max_oc = df[["open", "close"]].max(axis=1)
     min_oc = df[["open", "close"]].min(axis=1)
@@ -855,11 +871,14 @@ def build_price_feature_frame(price_df: pd.DataFrame) -> pd.DataFrame:
     df["atr_14"] = grp.apply(lambda g: _compute_atr(g, 14)).reset_index(level=0, drop=True)
     df["rsi_7"] = grp["close"].transform(lambda s: _compute_rsi(s, 7))
     df["rsi_14"] = grp["close"].transform(lambda s: _compute_rsi(s, 14))
+    df["rsi_21"] = grp["close"].transform(lambda s: _compute_rsi(s, 21))
+    df["rsi_divergence"] = df["rsi_14"] - df["rsi_21"]
     ema12 = grp["close"].transform(lambda s: s.ewm(span=12, adjust=False).mean())
     ema26 = grp["close"].transform(lambda s: s.ewm(span=26, adjust=False).mean())
     df["macd"] = ema12 - ema26
     df["macd_signal"] = grp["macd"].transform(lambda s: s.ewm(span=9, adjust=False).mean())
     df["macd_diff"] = df["macd"] - df["macd_signal"]
+    df["macd_above_signal"] = (df["macd"] > df["macd_signal"]).astype(int)
     bb_mid = grp["close"].transform(lambda s: s.rolling(20, min_periods=1).mean())
     bb_std = grp["close"].transform(lambda s: s.rolling(20, min_periods=1).std(ddof=0)).fillna(0.0)
     df["bb_upper"] = bb_mid + 2 * bb_std
@@ -868,7 +887,9 @@ def build_price_feature_frame(price_df: pd.DataFrame) -> pd.DataFrame:
     df["bb_pct"] = ((df["close"] - df["bb_lower"]) / (df["bb_upper"] - df["bb_lower"]).replace(0, np.nan)).fillna(0.5)
     df["volume_change"] = grp["volume"].pct_change().replace([np.inf, -np.inf], np.nan).fillna(0.0)
     df["volume_ma7"] = grp["volume"].transform(lambda s: s.rolling(7, min_periods=1).mean())
+    df["volume_ma14"] = grp["volume"].transform(lambda s: s.rolling(14, min_periods=1).mean())
     df["volume_vs_ma7"] = ((df["volume"] / df["volume_ma7"].replace(0, np.nan)) - 1).fillna(0.0)
+    df["volume_vs_ma14"] = ((df["volume"] / df["volume_ma14"].replace(0, np.nan)) - 1).fillna(0.0)
 
     def _obv(g: pd.DataFrame) -> pd.Series:
         direction = np.sign(g["close"].diff().fillna(0.0))
@@ -879,6 +900,8 @@ def build_price_feature_frame(price_df: pd.DataFrame) -> pd.DataFrame:
     df["lag1_return"] = grp["return_1"].shift(1).fillna(0.0)
     df["lag2_return"] = grp["return_1"].shift(2).fillna(0.0)
     df["lag3_return"] = grp["return_1"].shift(3).fillna(0.0)
+    df["lag4_return"] = grp["return_1"].shift(4).fillna(0.0)
+    df["lag5_return"] = grp["return_1"].shift(5).fillna(0.0)
     dow = pd.to_datetime(df["date"]).dt.dayofweek
     month = pd.to_datetime(df["date"]).dt.month
     df["dow_sin"] = np.sin(2 * np.pi * dow / 7.0)
@@ -1087,7 +1110,7 @@ def candidate_models(y_train: pd.Series) -> list[dict[str, Any]]:
                 ("clf", LogisticRegression(C=c, max_iter=1500, class_weight="balanced", random_state=42)),
             ]),
         })
-    for n_estimators, max_depth in [(250, 6), (400, 8), (500, 10)]:
+    for n_estimators, max_depth in [(250, 6), (400, 8), (500, 10), (600, 12), (300, 8)]:
         candidates.append({
             "family": "RandomForest",
             "params": {"n_estimators": n_estimators, "max_depth": max_depth, "class_weight": "balanced_subsample"},
@@ -1101,7 +1124,13 @@ def candidate_models(y_train: pd.Series) -> list[dict[str, Any]]:
             ),
         })
     if XGBClassifier is not None:
-        for n_estimators, max_depth, learning_rate in [(250, 3, 0.05), (400, 4, 0.03)]:
+        for n_estimators, max_depth, learning_rate, subsample, colsample in [
+            (250, 3, 0.05, 0.9, 0.9),
+            (400, 4, 0.03, 0.9, 0.9),
+            (500, 5, 0.02, 0.8, 0.8),
+            (600, 6, 0.01, 0.75, 0.75),
+            (300, 4, 0.05, 0.85, 0.85),
+        ]:
             candidates.append({
                 "family": "XGBoost",
                 "params": {
@@ -1114,9 +1143,11 @@ def candidate_models(y_train: pd.Series) -> list[dict[str, Any]]:
                     n_estimators=n_estimators,
                     max_depth=max_depth,
                     learning_rate=learning_rate,
-                    subsample=0.9,
-                    colsample_bytree=0.9,
+                    subsample=subsample,
+                    colsample_bytree=colsample,
                     reg_lambda=1.0,
+                    reg_alpha=0.1,
+                    min_child_weight=3,
                     objective="binary:logistic",
                     eval_metric="logloss",
                     random_state=42,
@@ -1127,7 +1158,13 @@ def candidate_models(y_train: pd.Series) -> list[dict[str, Any]]:
     else:
         candidates.append({"family": "XGBoost", "params": {}, "estimator": None, "skip_reason": "xgboost package unavailable at runtime."})
     if LGBMClassifier is not None:
-        for n_estimators, num_leaves, learning_rate in [(250, 31, 0.05), (400, 63, 0.03)]:
+        for n_estimators, num_leaves, learning_rate, min_child_samples in [
+            (250, 31, 0.05, 20),
+            (400, 63, 0.03, 15),
+            (500, 127, 0.02, 10),
+            (600, 63, 0.02, 20),
+            (400, 31, 0.03, 10),
+        ]:
             candidates.append({
                 "family": "LightGBM",
                 "params": {
@@ -1140,6 +1177,10 @@ def candidate_models(y_train: pd.Series) -> list[dict[str, Any]]:
                     n_estimators=n_estimators,
                     num_leaves=num_leaves,
                     learning_rate=learning_rate,
+                    min_child_samples=min_child_samples,
+                    subsample=0.8,
+                    colsample_bytree=0.8,
+                    reg_alpha=0.1,
                     class_weight="balanced",
                     random_state=42,
                     verbosity=-1,
